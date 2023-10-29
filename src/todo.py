@@ -1,6 +1,7 @@
 import sys
 import json
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from PyQt5.QtWidgets import QCalendarWidget, QTextEdit, QVBoxLayout, QPushButton
 from PyQt5.QtCore import Qt
 
 
@@ -8,6 +9,34 @@ qt_creator_file = "mainwindow.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qt_creator_file)
 tick = QtGui.QImage('tick.png')
 
+class TranslatorWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Translator")
+        self.textEdit = QTextEdit()
+        self.translateButton = QPushButton("Translate")
+        self.translateButton.clicked.connect(self.translate)
+        layout = QVBoxLayout()
+        layout.addWidget(self.textEdit)
+        layout.addWidget(self.translateButton)
+        widget = QtWidgets.QWidget()
+        widget.setLayout(layout)
+        self.setCentralWidget(widget)
+
+    def translate(self):
+        # Add your translation logic here
+        pass
+
+class CalendarWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Calendar")
+        self.calendar = QCalendarWidget()
+        layout = QVBoxLayout()
+        layout.addWidget(self.calendar)
+        widget = QtWidgets.QWidget()
+        widget.setLayout(layout)
+        self.setCentralWidget(widget)
 
 class TodoModel(QtCore.QAbstractListModel):
     def __init__(self, *args, todos=None, **kwargs):
@@ -39,6 +68,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.addButton.pressed.connect(self.add)
         self.deleteButton.pressed.connect(self.delete)
         self.completeButton.pressed.connect(self.complete)
+        
+        self.translatorButton = QPushButton("Open Translator")
+        self.translatorButton.pressed.connect(self.openTranslator)
+        self.calendarButton = QPushButton("Open Calendar")
+        self.calendarButton.pressed.connect(self.openCalendar)
+        # Add the new buttons to the layout
+        self.layout().addWidget(self.translatorButton)
+        self.layout().addWidget(self.calendarButton)
+
+    def openTranslator(self):
+        self.translatorWindow = TranslatorWindow()
+        self.translatorWindow.show()
+
+    def openCalendar(self):
+        self.calendarWindow = CalendarWindow()
+        self.calendarWindow.show()
 
     def add(self):
         """
