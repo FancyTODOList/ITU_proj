@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QCalendarWidget, QTextEdit, QVBoxLayout, QPushButton
 from PyQt5.QtCore import Qt
 
 
-qt_creator_file = "mainwindow.ui"
+qt_creator_file = "todo.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qt_creator_file)
 tick = QtGui.QImage('tick.png')
 
@@ -66,16 +66,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.load()
         self.todoView.setModel(self.model)
         self.addButton.pressed.connect(self.add)
-        self.deleteButton.pressed.connect(self.delete)
-        self.completeButton.pressed.connect(self.complete)
+        #self.deleteButton.pressed.connect(self.delete)
+        #self.completeButton.pressed.connect(self.complete)
         
-        self.translatorButton = QPushButton("Open Translator")
-        self.translatorButton.pressed.connect(self.openTranslator)
-        self.calendarButton = QPushButton("Open Calendar")
-        self.calendarButton.pressed.connect(self.openCalendar)
+        #self.translatorButton = QPushButton("Open Translator")
+        #self.translatorButton.pressed.connect(self.openTranslator)
+        #self.calendarButton = QPushButton("Open Calendar")
+        #self.calendarButton.pressed.connect(self.openCalendar)
         # Add the new buttons to the layout
-        self.layout().addWidget(self.translatorButton)
-        self.layout().addWidget(self.calendarButton)
+        #self.layout().addWidget(self.translatorButton)
+        #self.layout().addWidget(self.calendarButton)
 
     def openTranslator(self):
         self.translatorWindow = TranslatorWindow()
