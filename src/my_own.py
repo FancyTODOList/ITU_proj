@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter.font import Font
 from tkinter import ttk
+from tkinter import Tk, Toplevel
+from tkcalendar import Calendar
 import sys
 import json
 
@@ -71,9 +73,11 @@ def save_tasks(tasks):
 
 
 def open_calendar():
-
     calendar_window = Toplevel(root)
     calendar_window.title("Calendar")
+    calendar_window.configure(background='#469597')
+    calendar_window.geometry("350x250")
+    calendar_window.resizable(width=False, height=False)
 
     window_width = calendar_window.winfo_reqwidth()
     window_height = calendar_window.winfo_reqheight()
@@ -82,6 +86,9 @@ def open_calendar():
     y = (root.winfo_reqheight() - window_height) // 2 + root.winfo_y()
 
     calendar_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+    cal = Calendar(calendar_window, selectmode="day",
+                   year=2023, month=11, day=2)
+    cal.pack(padx=20, pady=20)
 
 
 def open_translator():
