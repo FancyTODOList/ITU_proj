@@ -6,6 +6,7 @@ from tkcalendar import Calendar
 import sys
 import json
 from googletrans import Translator
+import datetime
 
 root = Tk()
 root['bg'] = '#DDBEAA'
@@ -77,19 +78,19 @@ def open_calendar():
     calendar_window = Toplevel(root)
     calendar_window.title("Calendar")
     calendar_window.configure(background='#469597')
-    calendar_window.geometry("350x250")
-    calendar_window.resizable(width=False, height=False)
+    calendar_window.resizable(width=True, height=True)
 
-    window_width = calendar_window.winfo_reqwidth()
-    window_height = calendar_window.winfo_reqheight()
+    window_width = 250
+    window_height = 200
 
     x = (root.winfo_reqwidth() - window_width) // 2 + root.winfo_x()
     y = (root.winfo_reqheight() - window_height) // 2 + root.winfo_y()
 
     calendar_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+    today = datetime.date.today()
     cal = Calendar(calendar_window, selectmode="day",
-                   year=2023, month=11, day=2)
-    cal.pack(padx=20, pady=20)
+                   year=today.year, month=today.month, day=today.day, bg="lightblue")
+    cal.pack(padx=10, pady=10)
 
 
 def open_translator():
@@ -103,7 +104,8 @@ def open_translator():
     output = Text(translator_window, width=30, height=5, background="#DDBEAA")
     output.place(x=150, y=150)
 
-    translate_button = Button(translator_window, text="Translate", command=lambda: translate(input,output), background="#5BA199")
+    translate_button = Button(translator_window, text="Translate",
+                              command=lambda: translate(input, output), background="#5BA199")
     translate_button.place(x=50, y=250)  # Place the button at (200, 150)
 
     window_width = 450
@@ -121,6 +123,7 @@ def translate(input, output):
     translation = translator.translate(text, dest='cs')
     output.delete("1.0", END)
     output.insert(END, translation.text)
+
 
 def complete_item():
     selected_indices = my_list.curselection()
