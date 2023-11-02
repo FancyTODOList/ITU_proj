@@ -3,6 +3,7 @@ from tkinter.font import Font
 from tkinter import ttk
 import sys
 import json
+from googletrans import Translator
 
 root = Tk()
 root['bg'] = '#DDBEAA'
@@ -87,15 +88,32 @@ def open_calendar():
 def open_translator():
     translator_window = Toplevel(root)
     translator_window.title("Translator")
+    translator_window.configure(background='white')
 
-    window_width = translator_window.winfo_reqwidth()
-    window_height = translator_window.winfo_reqheight()
+    input = Text(translator_window, width=30, height=5, background="#DDBEAA")
+    input.place(x=150, y=50)
+
+    output = Text(translator_window, width=30, height=5, background="#DDBEAA")
+    output.place(x=150, y=150)
+
+    translate_button = Button(translator_window, text="Translate", command=lambda: translate(input,output), background="#5BA199")
+    translate_button.place(x=50, y=250)  # Place the button at (200, 150)
+
+    window_width = 450
+    window_height = 350
 
     x = (root.winfo_reqwidth() - window_width) // 2 + root.winfo_x()
     y = (root.winfo_reqheight() - window_height) // 2 + root.winfo_y()
 
     translator_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
+
+def translate(input, output):
+    translator = Translator()
+    text = input.get("1.0", 'end-1c')
+    translation = translator.translate(text, dest='cs')
+    output.delete("1.0", END)
+    output.insert(END, translation.text)
 
 def complete_item():
     selected_indices = my_list.curselection()
