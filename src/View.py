@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter.font import Font
 from tkcalendar import Calendar
 import datetime
-from googletrans import Translator
+
 class TaskView:
     def __init__(self, root):
         self.root = root
@@ -38,25 +38,26 @@ class TaskView:
         self.my_entry = Entry(root, font=("Helvetica", 24))
         self.my_entry.pack(pady=20)
 
-        self.button_frame = Frame(root)
+        self.button_frame = Frame(root, background="#DDBEAA")
         self.button_frame.pack(pady=20)
 
-        self.delete_button = Button(self.button_frame, text="Delete Item", command=self.delete_item)
-        self.add_button = Button(self.button_frame, text="Add Item", command=self.add_item)
-        self.complete_button = Button(self.button_frame, text="Complete", command=self.complete_item)
-        self.calendar_button = Button(self.button_frame, text="Calendar", command=self.open_calendar)
-        self.translator_button = Button(self.button_frame, text="Translator", command=self.open_translator)
+        self.delete_button = Button(self.button_frame, text="Delete Item", command=self.delete_item, background="#469597")
+        self.add_button = Button(self.button_frame, text="Add Item", command=self.add_item, background="#469597")
+        self.complete_button = Button(self.button_frame, text="Complete", command=self.complete_item, background="#469597")
+        self.calendar_button = Button(self.button_frame, text="Calendar", command=self.open_calendar, background="#469597")
+        self.translator_button = Button(self.button_frame, text="Translator", command=self.open_translator, background="#469597")
         self.delete_button.grid(row=0, column=2, sticky='ew', pady=10, ipadx=10)
         self.add_button.grid(row=1, column=0, columnspan=4, sticky='ew', pady=10)
         self.complete_button.grid(row=0, column=1, sticky='ew', pady=10, ipadx=10)
         self.calendar_button.grid(row=0, column=0, sticky='ew', pady=10, ipadx=10)
         self.translator_button.grid(row=0, column=3, sticky='ew', pady=10, ipadx=10)
+    
     def display_tasks(self, tasks):
-        self.my_list.delete(0, END)  # Clear the Listbox
+        self.my_list.delete(0, END)  
         for task in tasks:
             task_text = task['text']
             completed = '✅' if task['completed'] else ''
-            self.my_list.insert(END, f'{completed}{task_text}')  # Add each task to the Listbox
+            self.my_list.insert(END, f'{completed}{task_text}')  
 
     def delete_item(self):
         pass
@@ -72,7 +73,7 @@ class TaskView:
 
     def open_translator(self):
         pass
-
+    
 class TranslatorView:
     def __init__(self, root):
         self.root = root
@@ -100,16 +101,10 @@ class TranslatorView:
         y = (screen_height - window_height) // 2
 
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
-    
-    def translate(self, input, output):
-        if(input.get("1.0", 'end-1c') == ""):
-            return
-        translator = Translator()
-        text = input.get("1.0", 'end-1c')
-        translation = translator.translate(text, dest='cs')
-        output.delete("1.0", END)
-        output.insert(END, translation.text)
 
+    def translate(self, input, output):
+        pass
+    
 
 class CalendarView:
     def __init__(self, root):

@@ -1,5 +1,4 @@
 from tkinter import Toplevel, Text, Button, END
-
 from Model import TaskModel
 from View import TaskView, CalendarView, TranslatorView
 from googletrans import Translator
@@ -44,6 +43,7 @@ class TaskController:
                 self.view.my_list.delete(index)
                 self.view.my_list.insert(index, task_text)
 
+    
     def open_calendar(self):
         CalendarView(Toplevel(self.view.root))
 
@@ -52,21 +52,14 @@ class TaskController:
 
     def load_tasks(self):
         tasks = self.model.load_tasks()
-        self.view.display_tasks(tasks)  # Display the tasks in the view
-class TranslatorController:
-    def __init__(self, model, view):
-        self.model = model
-        self.view = view
-
-    def translate(self):
+        self.view.display_tasks(tasks)  
+    
+    
+    def translate(input, output):
+        if(input.get("1.0", 'end-1c') == ""):
+            return
         translator = Translator()
-        text = self.view.input.get("1.0", 'end-1c')
+        text = input.get("1.0", 'end-1c')
         translation = translator.translate(text, dest='cs')
-        self.view.output.delete("1.0", END)
-        self.view.output.insert(END, translation.text)
-
-class CalendarController: 
-    def __init__(self, model, view):
-        self.model = model
-        self.view = view
-        
+        output.delete("1.0", END)
+        output.insert(END, translation.text)
