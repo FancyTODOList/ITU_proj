@@ -75,9 +75,11 @@ class TaskView:
         pass
     
 class TranslatorView:
-    def __init__(self, root):
+    def __init__(self, root, controller):
         self.root = root
+        self.controller = controller  # Store the controller
         self.root.title('Translator')
+        
         self.root.configure(background='white')
         self.root.resizable(width=False, height=False)
 
@@ -88,7 +90,7 @@ class TranslatorView:
         output.place(x=150, y=150)
 
         translate_button = Button(self.root, text="Translate",
-                                  command=lambda: self.translate(input, output), background="#5BA199")
+                                  command=lambda: self.controller.translate(input, output), background="#5BA199")
         translate_button.place(x=50, y=250)
 
         window_width = 450

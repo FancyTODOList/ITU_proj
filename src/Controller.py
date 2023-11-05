@@ -42,20 +42,28 @@ class TaskController:
             else:
                 self.view.my_list.delete(index)
                 self.view.my_list.insert(index, task_text)
-
     
     def open_calendar(self):
         CalendarView(Toplevel(self.view.root))
 
     def open_translator(self):
-        TranslatorView(Toplevel(self.view.root))
+        translator_view = TranslatorView(Toplevel(self.view.root), None)  # Create a TranslatorView instance first without a controller
+        translator_controller = TranslatorController(None, translator_view)  # Create a TranslatorController with the view
+        translator_view.controller = translator_controller  # Set the controller on the view
 
     def load_tasks(self):
         tasks = self.model.load_tasks()
         self.view.display_tasks(tasks)  
     
     
-    def translate(input, output):
+        
+class TranslatorController:
+    def __init__(self, model, view):
+        self.model = model
+        self.view = view
+        #self.view.translate_button.config(command=lambda: self.translate(self.view.input, self.view.output))
+
+    def translate(self, input, output):
         if(input.get("1.0", 'end-1c') == ""):
             return
         translator = Translator()
