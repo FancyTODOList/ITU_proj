@@ -24,6 +24,8 @@ class TaskController:
             self.view.my_list.delete(index)
 
     def add_item(self):
+        if(self.view.my_entry.get() == ""):
+            return
         task_text = self.view.my_entry.get()
         self.model.add_task(task_text)
         self.view.my_list.insert(END, task_text)

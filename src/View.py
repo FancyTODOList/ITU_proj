@@ -78,7 +78,7 @@ class TranslatorView:
         self.root = root
         self.root.title('Translator')
         self.root.configure(background='white')
-        self.root.resizable(width=True, height=True)
+        self.root.resizable(width=False, height=False)
 
         input = Text(self.root, width=30, height=5, background="#DDBEAA")
         input.place(x=150, y=50)
