@@ -3,6 +3,7 @@ from tkinter.font import Font
 from tkcalendar import Calendar
 import datetime
 
+
 class TaskView:
     def __init__(self, root):
         self.root = root
@@ -26,9 +27,9 @@ class TaskView:
         self.my_frame.pack(pady=10)
 
         self.my_list = Listbox(self.my_frame, font=self.my_font, width=25, height=5, bg="#DDBEAA", bd=0,
-                              fg="#000000", highlightthickness=0, selectbackground="#a6a6a6", activestyle="none")
+                               fg="#000000", highlightthickness=0, selectbackground="#a6a6a6", activestyle="none")
         self.my_list.pack(side=LEFT, fill=BOTH)
-        
+
         self.my_scrollbar = Scrollbar(self.my_frame)
         self.my_scrollbar.pack(side=RIGHT, fill=BOTH)
 
@@ -41,23 +42,33 @@ class TaskView:
         self.button_frame = Frame(root, background="#DDBEAA")
         self.button_frame.pack(pady=20)
 
-        self.delete_button = Button(self.button_frame, text="Delete Item", command=self.delete_item, background="#469597")
-        self.add_button = Button(self.button_frame, text="Add Item", command=self.add_item, background="#469597")
-        self.complete_button = Button(self.button_frame, text="Complete", command=self.complete_item, background="#469597")
-        self.calendar_button = Button(self.button_frame, text="Calendar", command=self.open_calendar, background="#469597")
-        self.translator_button = Button(self.button_frame, text="Translator", command=self.open_translator, background="#469597")
-        self.delete_button.grid(row=0, column=2, sticky='ew', pady=10, ipadx=10)
-        self.add_button.grid(row=1, column=0, columnspan=4, sticky='ew', pady=10)
-        self.complete_button.grid(row=0, column=1, sticky='ew', pady=10, ipadx=10)
-        self.calendar_button.grid(row=0, column=0, sticky='ew', pady=10, ipadx=10)
-        self.translator_button.grid(row=0, column=3, sticky='ew', pady=10, ipadx=10)
-    
+        self.delete_button = Button(
+            self.button_frame, text="Delete Item", command=self.delete_item, background="#469597")
+        self.add_button = Button(
+            self.button_frame, text="Add Item", command=self.add_item, background="#469597")
+        self.complete_button = Button(
+            self.button_frame, text="Complete", command=self.complete_item, background="#469597")
+        self.calendar_button = Button(
+            self.button_frame, text="Calendar", command=self.open_calendar, background="#469597")
+        self.translator_button = Button(
+            self.button_frame, text="Translator", command=self.open_translator, background="#469597")
+        self.delete_button.grid(
+            row=0, column=2, sticky='ew', pady=10, ipadx=10)
+        self.add_button.grid(row=1, column=0, columnspan=4,
+                             sticky='ew', pady=10)
+        self.complete_button.grid(
+            row=0, column=1, sticky='ew', pady=10, ipadx=10)
+        self.calendar_button.grid(
+            row=0, column=0, sticky='ew', pady=10, ipadx=10)
+        self.translator_button.grid(
+            row=0, column=3, sticky='ew', pady=10, ipadx=10)
+
     def display_tasks(self, tasks):
-        self.my_list.delete(0, END)  
+        self.my_list.delete(0, END)
         for task in tasks:
             task_text = task['text']
             completed = '✅' if task['completed'] else ''
-            self.my_list.insert(END, f'{completed}{task_text}')  
+            self.my_list.insert(END, f'{completed}{task_text}')
 
     def delete_item(self):
         pass
@@ -73,13 +84,14 @@ class TaskView:
 
     def open_translator(self):
         pass
-    
+
+
 class TranslatorView:
     def __init__(self, root, controller):
         self.root = root
         self.controller = controller  # Store the controller
         self.root.title('Translator')
-        
+
         self.root.configure(background='white')
         self.root.resizable(width=False, height=False)
 
@@ -106,12 +118,13 @@ class TranslatorView:
 
     def translate(self, input, output):
         pass
-    
+
 
 class CalendarView:
-    def __init__(self, root):
+    def __init__(self, root, controller, initial_date):
         self.root = root
         self.root.title('Calendar')
+        self.controller = controller
         self.root.configure(background='#469597')
         self.root.resizable(width=False, height=False)
 
@@ -126,7 +139,7 @@ class CalendarView:
 
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-        today = datetime.date.today()
+        # today = datetime.date.today()
         cal = Calendar(self.root, selectmode="day",
-                       year=today.year, month=today.month, day=today.day, bg="lightblue")
+                       year=initial_date.year, month=initial_date.month, day=initial_date.day, bg="lightblue")
         cal.pack(padx=10, pady=10)
