@@ -1,8 +1,6 @@
 from tkinter import *
 from tkinter.font import Font
 from tkcalendar import Calendar
-import datetime
-
 
 class TaskView:
     def __init__(self, root):
@@ -52,16 +50,11 @@ class TaskView:
             self.button_frame, text="Calendar", command=self.open_calendar, background="#469597")
         self.translator_button = Button(
             self.button_frame, text="Translator", command=self.open_translator, background="#469597")
-        self.delete_button.grid(
-            row=0, column=2, sticky='ew', pady=10, ipadx=10)
-        self.add_button.grid(row=1, column=0, columnspan=4,
-                             sticky='ew', pady=10)
-        self.complete_button.grid(
-            row=0, column=1, sticky='ew', pady=10, ipadx=10)
-        self.calendar_button.grid(
-            row=0, column=0, sticky='ew', pady=10, ipadx=10)
-        self.translator_button.grid(
-            row=0, column=3, sticky='ew', pady=10, ipadx=10)
+        self.delete_button.grid(row=0, column=2, sticky='ew', pady=10, ipadx=10)
+        self.add_button.grid(row=1, column=0, columnspan=4, sticky='ew', pady=10)
+        self.complete_button.grid(row=0, column=1, sticky='ew', pady=10, ipadx=10)
+        self.calendar_button.grid(row=0, column=0, sticky='ew', pady=10, ipadx=10)
+        self.translator_button.grid(row=0, column=3, sticky='ew', pady=10, ipadx=10)
 
     def display_tasks(self, tasks):
         self.my_list.delete(0, END)
@@ -89,7 +82,7 @@ class TaskView:
 class TranslatorView:
     def __init__(self, root, controller):
         self.root = root
-        self.controller = controller  # Store the controller
+        self.controller = controller  
         self.root.title('Translator')
 
         self.root.configure(background='white')
@@ -116,10 +109,6 @@ class TranslatorView:
 
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-    def translate(self, input, output):
-        pass
-
-
 class CalendarView:
     def __init__(self, root, controller, initial_date):
         self.root = root
@@ -139,7 +128,6 @@ class CalendarView:
 
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-        # today = datetime.date.today()
         cal = Calendar(self.root, selectmode="day",
-                       year=initial_date.year, month=initial_date.month, day=initial_date.day, bg="lightblue")
+                       year=initial_date.year, month=initial_date.month, day=initial_date.day)
         cal.pack(padx=10, pady=10)
