@@ -8,7 +8,16 @@ class TaskView:
         self.root = root
         self.root['bg'] = '#DDBEAA'
         self.root.title('ToDo List!')
-        self.root.geometry("500x500")
+        window_width = 600
+        window_height = 600
+
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+
+        self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
         self.root.resizable(width=False, height=False)
 
         self.my_font = Font(family="Regular", size=30, weight="bold")
@@ -84,8 +93,11 @@ class TranslatorView:
         window_width = 450
         window_height = 350
 
-        x = (self.root.winfo_reqwidth() - window_width) // 2 + self.root.winfo_x()
-        y = (self.root.winfo_reqheight() - window_height) // 2 + self.root.winfo_y()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
 
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
     
@@ -106,11 +118,14 @@ class CalendarView:
         self.root.configure(background='#469597')
         self.root.resizable(width=False, height=False)
 
-        window_width = 250
-        window_height = 200
+        window_width = 450
+        window_height = 350
 
-        x = (self.root.winfo_reqwidth() - window_width) // 2 + self.root.winfo_x()
-        y = (self.root.winfo_reqheight() - window_height) // 2 + self.root.winfo_y()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
 
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
