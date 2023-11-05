@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.font import Font
 from tkcalendar import Calendar
 import datetime
+from googletrans import Translator
 class TaskView:
     def __init__(self, root):
         self.root = root
@@ -83,7 +84,14 @@ class TranslatorView:
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
     
     def translate(self, input, output):
-        pass
+        if(input.get("1.0", 'end-1c') == ""):
+            return
+        translator = Translator()
+        text = input.get("1.0", 'end-1c')
+        translation = translator.translate(text, dest='cs')
+        output.delete("1.0", END)
+        output.insert(END, translation.text)
+
 
 class CalendarView:
     def __init__(self, root):

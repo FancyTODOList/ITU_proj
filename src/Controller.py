@@ -54,13 +54,12 @@ class TranslatorController:
         self.model = model
         self.view = view
 
-        self.view.translate_button.config(command=lambda: self.translate(self.view.input, self.view.output))
-    def translate(self, input, output):
+    def translate(self):
         translator = Translator()
-        text = input.get("1.0", 'end-1c')
+        text = self.view.input.get("1.0", 'end-1c')
         translation = translator.translate(text, dest='cs')
-        output.delete("1.0", END)
-        output.insert(END, translation.text)
+        self.view.output.delete("1.0", END)
+        self.view.output.insert(END, translation.text)
 
 class CalendarController: 
     def __init__(self, model, view):
