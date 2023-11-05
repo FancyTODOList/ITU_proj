@@ -19,7 +19,7 @@ class TaskView:
         self.my_list = Listbox(self.my_frame, font=self.my_font, width=25, height=5, bg="#DDBEAA", bd=0,
                               fg="#000000", highlightthickness=0, selectbackground="#a6a6a6", activestyle="none")
         self.my_list.pack(side=LEFT, fill=BOTH)
-
+        
         self.my_scrollbar = Scrollbar(self.my_frame)
         self.my_scrollbar.pack(side=RIGHT, fill=BOTH)
 
@@ -42,6 +42,12 @@ class TaskView:
         self.complete_button.grid(row=0, column=1, sticky='ew', pady=10, ipadx=10)
         self.calendar_button.grid(row=0, column=0, sticky='ew', pady=10, ipadx=10)
         self.translator_button.grid(row=0, column=3, sticky='ew', pady=10, ipadx=10)
+    def display_tasks(self, tasks):
+        self.my_list.delete(0, END)  # Clear the Listbox
+        for task in tasks:
+            task_text = task['text']
+            completed = '✅' if task['completed'] else ''
+            self.my_list.insert(END, f'{completed}{task_text}')  # Add each task to the Listbox
 
     def delete_item(self):
         pass

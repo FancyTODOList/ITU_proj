@@ -9,7 +9,7 @@ class TaskController:
     def __init__(self, model, view):
         self.model = model
         self.view = view
-
+        self.load_tasks()
         self.view.delete_button.config(command=self.delete_item)
         self.view.add_button.config(command=self.add_item)
         self.view.complete_button.config(command=self.complete_item)
@@ -48,7 +48,9 @@ class TaskController:
     def open_translator(self):
         TranslatorView(Toplevel(self.view.root))
 
-
+    def load_tasks(self):
+        tasks = self.model.load_tasks()
+        self.view.display_tasks(tasks)  # Display the tasks in the view
 class TranslatorController:
     def __init__(self, model, view):
         self.model = model

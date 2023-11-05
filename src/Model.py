@@ -7,9 +7,12 @@ class TaskModel:
     def load_tasks(self):
         try:
             with open("tasks.json", "r") as file:
-                return json.load(file)
+                tasks = json.load(file)
         except FileNotFoundError:
-            return []
+            with open("tasks.json", "w") as file:
+                tasks = []
+                json.dump(tasks, file)
+        return tasks
 
     def save_tasks(self):
         with open("tasks.json", "w") as file:
