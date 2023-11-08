@@ -126,6 +126,11 @@ class CalendarView:
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
 
+        translate_button = Button(self.root, text="Get date", background="#5BA199")
+        translate_button.place(x=180, y=200)
+        selected_date = Label(self.root, text="Selected date: 8.11.2023")
+        selected_date.place(x=150, y=250)
+
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
         cal = Calendar(self.root, selectmode="day",
