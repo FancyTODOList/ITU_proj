@@ -73,7 +73,10 @@ class TaskController:
                 translation = translator.translate(task_text, src=from_language, dest=to_language)
                 self.view.my_list.delete(index)
                 self.view.my_list.insert(index, translation.text)   
-        
+                # Update the task text in the model
+                self.model.tasks[index]["text"] = translation.text
+            # Save the tasks
+            self.model.save_tasks()
 
     def load_tasks(self):                                    # load tasks to listbox function      
         tasks = self.model.load_tasks()

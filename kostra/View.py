@@ -56,15 +56,15 @@ class TaskView:
         self.calendar_button.grid(row=0, column=0, sticky='ew', pady=10, ipadx=10)
         self.translator_button.grid(row=0, column=3, sticky='ew', pady=10, ipadx=10)
         # List of languages
-        languages = ['English', 'Spanish', 'French', 'German', 'Italian']
+        languages = ['English', 'Spanish', 'French', 'German', 'Italian', 'Russian', 'Chinese', 'Japanese', 'Korean', 'Arabic', 'Hindi', 'Turkish', 'Portuguese', 'Dutch', 'Polish', 'Romanian', 'Greek', 'Swedish', 'Czech', 'Danish', 'Finnish', 'Hungarian', 'Norwegian', 'Slovak', 'Ukrainian', 'Bulgarian', 'Croatian', 'Lithuanian', 'Slovenian', 'Estonian', 'Latvian', 'Maltese']
 
         # Create variables to hold the selected languages
         self.from_language = StringVar(self.root)
         self.to_language = StringVar(self.root)
 
         # Set default languages
-        self.from_language.set('English')
-        self.to_language.set('Spanish')
+        self.from_language.set('Czech')
+        self.to_language.set('English')
 
         # Create dropdown lists
         from_language_menu = OptionMenu(self.root, self.from_language, *languages)
