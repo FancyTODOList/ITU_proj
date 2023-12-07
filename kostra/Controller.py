@@ -1,6 +1,6 @@
 from tkinter import Toplevel, Text, Button, END
 from Model import TaskModel
-from View import TaskView, CalendarView, TranslatorView
+from View import TaskView, CalendarView
 from googletrans import Translator
 import datetime
 
@@ -16,7 +16,7 @@ class TaskController:
         self.view.add_button.config(command=self.add_item)
         self.view.complete_button.config(command=self.complete_item)
         self.view.calendar_button.config(command=self.open_calendar)
-        self.view.translator_button.config(command=self.open_translator) # set commands for buttons
+        self.view.translator_button.config(command=self.translate) # set commands for buttons
 
     def delete_item(self):                                      # delete one task function
         selected_indices = self.view.my_list.curselection()     # get selected tasks        
@@ -56,32 +56,28 @@ class TaskController:
         # Set the controller on the view
         calendar_controller.view = calendar_view
 
-    def open_translator(self):                                  # open translator function                
-        # Create a TranslatorView instance first without a controller
-        translator_view = TranslatorView(Toplevel(self.view.root), None)
-        # Create a TranslatorController with the view
-        translator_controller = TranslatorController(None, translator_view)
-        # Set the controller on the view
-        translator_view.controller = translator_controller
+    def translate(self):                     # translate function    
+        selected_indices = self.view.my_list.curselection()
+        from_language = self.view.from_language.get()
+        to_language = self.view.to_language.get()
+        translator = Translator()
+        if (self.view.my_entry.get() != ""):
+            task_text = self.view.my_entry.get() 
+            translation = translator.translate(task_text, src=from_language, dest=to_language)
+            self.view.my_entry.delete(0, END)  # Delete the current text
+            self.view.my_entry.insert(0, translation.text)  # Insert the translated text
+            return
+        elif (len(selected_indices) != 0):
+            for index in selected_indices:
+                task_text = self.model.tasks[index]["text"]
+                translation = translator.translate(task_text, src=from_language, dest=to_language)
+                self.view.my_list.delete(index)
+                self.view.my_list.insert(index, translation.text)   
+        
 
     def load_tasks(self):                                    # load tasks to listbox function      
         tasks = self.model.load_tasks()
         self.view.display_tasks(tasks)
-
-# Translator controller
-class TranslatorController:
-    def __init__(self, model, view):
-        self.model = model
-        self.view = view                                    # initialization
-
-    def translate(self, input, output):                     # translate function
-        if (input.get("1.0", 'end-1c') == ""):
-            return                                          # if input is empty, do nothing
-        translator = Translator()
-        text = input.get("1.0", 'end-1c')
-        translation = translator.translate(text, dest='cs') # translate text from input in any language to output in Czech
-        output.delete("1.0", END)
-        output.insert(END, translation.text)
 
 # Calendar controller
 class CalendarController:

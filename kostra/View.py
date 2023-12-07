@@ -49,12 +49,30 @@ class TaskView:
         self.calendar_button = Button(
             self.button_frame, text="Calendar", command=self.open_calendar, background="#469597")
         self.translator_button = Button(
-            self.button_frame, text="Translator", command=self.open_translator, background="#469597")
+            self.button_frame, text="Translate", command=self.translate, background="#469597")
         self.delete_button.grid(row=0, column=2, sticky='ew', pady=10, ipadx=10)
         self.add_button.grid(row=1, column=0, columnspan=4, sticky='ew', pady=10)
         self.complete_button.grid(row=0, column=1, sticky='ew', pady=10, ipadx=10)
         self.calendar_button.grid(row=0, column=0, sticky='ew', pady=10, ipadx=10)
         self.translator_button.grid(row=0, column=3, sticky='ew', pady=10, ipadx=10)
+        # List of languages
+        languages = ['English', 'Spanish', 'French', 'German', 'Italian']
+
+        # Create variables to hold the selected languages
+        self.from_language = StringVar(self.root)
+        self.to_language = StringVar(self.root)
+
+        # Set default languages
+        self.from_language.set('English')
+        self.to_language.set('Spanish')
+
+        # Create dropdown lists
+        from_language_menu = OptionMenu(self.root, self.from_language, *languages)
+        to_language_menu = OptionMenu(self.root, self.to_language, *languages)
+
+        # Place the dropdown lists
+        from_language_menu.place(x=500, y=340)
+        to_language_menu.place(x=500, y=380)
 
     def display_tasks(self, tasks):
         self.my_list.delete(0, END)
@@ -75,39 +93,8 @@ class TaskView:
     def open_calendar(self):
         pass
 
-    def open_translator(self):
+    def translate(self):
         pass
-
-
-class TranslatorView:
-    def __init__(self, root, controller):
-        self.root = root
-        self.controller = controller  
-        self.root.title('Translator')
-
-        self.root.configure(background='white')
-        self.root.resizable(width=False, height=False)
-
-        input = Text(self.root, width=30, height=5, background="#DDBEAA")
-        input.place(x=150, y=50)
-
-        output = Text(self.root, width=30, height=5, background="#DDBEAA")
-        output.place(x=150, y=150)
-
-        translate_button = Button(self.root, text="Translate",
-                                  command=lambda: self.controller.translate(input, output), background="#5BA199")
-        translate_button.place(x=50, y=250)
-
-        window_width = 450
-        window_height = 350
-
-        screen_width = self.root.winfo_screenwidth()
-        screen_height = self.root.winfo_screenheight()
-
-        x = (screen_width - window_width) // 2
-        y = (screen_height - window_height) // 2
-
-        self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
 class CalendarView:
     def __init__(self, root, controller, initial_date):
