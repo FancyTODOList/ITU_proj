@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.font import Font
 from tkcalendar import Calendar
 
+
 class TaskView:
     def __init__(self, root):
         self.root = root
@@ -50,13 +51,23 @@ class TaskView:
             self.button_frame, text="Calendar", command=self.open_calendar, background="#469597")
         self.translator_button = Button(
             self.button_frame, text="Translate", command=self.translate, background="#469597")
-        self.delete_button.grid(row=0, column=2, sticky='ew', pady=10, ipadx=10)
-        self.add_button.grid(row=1, column=0, columnspan=4, sticky='ew', pady=10)
-        self.complete_button.grid(row=0, column=1, sticky='ew', pady=10, ipadx=10)
-        self.calendar_button.grid(row=0, column=0, sticky='ew', pady=10, ipadx=10)
-        self.translator_button.grid(row=0, column=3, sticky='ew', pady=10, ipadx=10)
+        self.micro_button = Button(
+            self.button_frame, text="Micro", command=self.translate, background="#469597")
+        self.delete_button.grid(
+            row=0, column=2, sticky='ew', pady=10, ipadx=10)
+        self.add_button.grid(row=1, column=0, columnspan=4,
+                             sticky='ew', pady=10)
+        self.complete_button.grid(
+            row=0, column=1, sticky='ew', pady=10, ipadx=10)
+        self.calendar_button.grid(
+            row=0, column=0, sticky='ew', pady=10, ipadx=10)
+        self.translator_button.grid(
+            row=0, column=3, sticky='ew', pady=10, ipadx=10)
+        self.micro_button.grid(
+            row=2, column=0, columnspan=4, sticky='ew', pady=10)
         # List of languages
-        languages = ['English', 'Spanish', 'French', 'German', 'Italian', 'Russian', 'Chinese', 'Japanese', 'Korean', 'Arabic', 'Hindi', 'Turkish', 'Portuguese', 'Dutch', 'Polish', 'Romanian', 'Greek', 'Swedish', 'Czech', 'Danish', 'Finnish', 'Hungarian', 'Norwegian', 'Slovak', 'Ukrainian', 'Bulgarian', 'Croatian', 'Lithuanian', 'Slovenian', 'Estonian', 'Latvian', 'Maltese']
+        languages = ['English', 'Spanish', 'French', 'German', 'Italian', 'Russian', 'Chinese', 'Japanese', 'Korean', 'Arabic', 'Hindi', 'Turkish', 'Portuguese', 'Dutch', 'Polish', 'Romanian',
+                     'Greek', 'Swedish', 'Czech', 'Danish', 'Finnish', 'Hungarian', 'Norwegian', 'Slovak', 'Ukrainian', 'Bulgarian', 'Croatian', 'Lithuanian', 'Slovenian', 'Estonian', 'Latvian', 'Maltese']
 
         # Create variables to hold the selected languages
         self.from_language = StringVar(self.root)
@@ -67,7 +78,8 @@ class TaskView:
         self.to_language.set('English')
 
         # Create dropdown lists
-        from_language_menu = OptionMenu(self.root, self.from_language, *languages)
+        from_language_menu = OptionMenu(
+            self.root, self.from_language, *languages)
         to_language_menu = OptionMenu(self.root, self.to_language, *languages)
 
         # Place the dropdown lists
@@ -96,6 +108,10 @@ class TaskView:
     def translate(self):
         pass
 
+    def micro(self):
+        pass
+
+
 class CalendarView:
     def __init__(self, root, controller, initial_date):
         self.root = root
@@ -113,7 +129,8 @@ class CalendarView:
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
 
-        translate_button = Button(self.root, text="Get date", background="#5BA199")
+        translate_button = Button(
+            self.root, text="Get date", background="#5BA199")
         translate_button.place(x=180, y=200)
         selected_date = Label(self.root, text="Selected date: 8.11.2023")
         selected_date.place(x=150, y=250)
