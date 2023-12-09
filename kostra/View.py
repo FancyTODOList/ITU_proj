@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.font import Font
 from tkcalendar import Calendar
+from datetime import datetime
 
 
 class TaskView:
@@ -129,14 +130,21 @@ class CalendarView:
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
 
-        translate_button = Button(
-            self.root, text="Get date", background="#5BA199")
-        translate_button.place(x=180, y=200)
-        selected_date = Label(self.root, text="Selected date: 8.11.2023")
-        selected_date.place(x=150, y=250)
+        self.get_date_button = Button(
+            self.root, text="Get date", command=self.get_selected_date,  background="#5BA199")
+        self.get_date_button.place(x=180, y=200)
+        self.selected_date = Label(self.root, text="Selected date:   ")
+        self.selected_date.place(x=150, y=250)
 
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-        cal = Calendar(self.root, selectmode="day",
-                       year=initial_date.year, month=initial_date.month, day=initial_date.day)
-        cal.pack(padx=10, pady=10)
+        self.cal = Calendar(self.root, selectmode="day",
+                            year=initial_date.year, month=initial_date.month, day=initial_date.day)
+        self.cal.pack(padx=10, pady=10)
+
+    def get_selected_date(self):
+        selected_date_str = self.cal.get_date()
+        selected_date = datetime.strptime(selected_date_str, "%m/%d/%y")
+        formatted_date = selected_date.strftime("%d. %m. %Y")
+        self.selected_date.config(text=f"Selected date: {formatted_date}")
+        return formatted_date
