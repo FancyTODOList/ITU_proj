@@ -87,6 +87,14 @@ class TaskView:
         from_language_menu.place(x=500, y=340)
         to_language_menu.place(x=500, y=380)
 
+        # Биндим события мыши для перетаскивания элементов
+        self.my_list.bind("<Button-1>", self.on_start_drag)
+        self.my_list.bind("<B1-Motion>", self.on_drag_motion)
+
+        # Инициализируем переменные для хранения данных о перетаскивании
+        self.drag_start_index = None
+        self.dragged_index = None
+
     def display_tasks(self, tasks):
         self.my_list.delete(0, END)
         for task in tasks:
@@ -111,6 +119,26 @@ class TaskView:
 
     def micro(self):
         pass
+
+    def on_start_drag(self, event):
+        # Получаем индекс элемента, по которому произошел клик
+        self.drag_start_index = self.my_list.nearest(event.y)
+
+    def on_drag_motion(self, event):
+        # Получаем индекс элемента, над которым находится курсор
+        current_index = self.my_list.nearest(event.y)
+
+        # Проверяем, отличается ли текущий индекс от начального индекса
+        if current_index != self.drag_start_index:
+            # Удаляем перетаскиваемый элемент
+            item = self.my_list.get(self.drag_start_index)
+            self.my_list.delete(self.drag_start_index)
+
+            # Вставляем элемент перед текущим индексом
+            self.my_list.insert(current_index, item)
+
+            # Обновляем начальный индекс для дальнейшего перетаскивания
+            self.drag_start_index = current_index
 
 
 class CalendarView:
