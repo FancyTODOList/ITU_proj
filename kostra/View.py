@@ -66,9 +66,26 @@ class TaskView:
             row=0, column=3, sticky='ew', pady=10, ipadx=10)
         self.micro_button.grid(
             row=2, column=0, columnspan=4, sticky='ew', pady=10)
+
         # List of languages
-        languages = ['English', 'Spanish', 'French', 'German', 'Italian', 'Russian', 'Chinese', 'Japanese', 'Korean', 'Arabic', 'Hindi', 'Turkish', 'Portuguese', 'Dutch', 'Polish', 'Romanian',
-                     'Greek', 'Swedish', 'Czech', 'Danish', 'Finnish', 'Hungarian', 'Norwegian', 'Slovak', 'Ukrainian', 'Bulgarian', 'Croatian', 'Lithuanian', 'Slovenian', 'Estonian', 'Latvian', 'Maltese']
+        self.short_languages = ['English', 'Polish', 'Czech', 'Slovak', 'Ukrainian', 'Bulgarian']
+        self.long_languages = ['English', 'Spanish', 'French', 'German', 'Italian', 'Chinese', 
+                               'Japanese', 'Korean', 'Arabic', 'Hindi', 'Turkish', 'Portuguese', 
+                               'Dutch', 'Polish', 'Romanian', 'Greek', 'Swedish', 'Czech', 'Danish', 
+                               'Finnish', 'Hungarian', 'Norwegian', 'Slovak', 'Ukrainian', 'Bulgarian', 
+                               'Croatian', 'Lithuanian', 'Slovenian', 'Estonian', 'Latvian', 'Maltese', 
+                               'Afrikaans', 'Albanian', 'Amharic', 'Armenian', 'Azerbaijani', 'Basque', 
+                               'Belarusian', 'Bengali', 'Bosnian', 'Catalan', 'Cebuano', 'Chichewa', 
+                               'Corsican', 'Filipino', 'Frisian', 'Galician', 'Georgian', 'Gujarati', 
+                               'Haitian Creole', 'Hausa', 'Hawaiian', 'Hmong', 'Icelandic', 'Igbo', 
+                               'Indonesian', 'Irish', 'Javanese', 'Kannada', 'Kazakh', 'Khmer', 
+                               'Kurdish', 'Kyrgyz', 'Lao', 'Latin', 
+                               'Macedonian', 'Malagasy', 'Malay', 'Malayalam', 'Maori', 'Marathi', 
+                               'Mongolian', 'Myanmar', 'Nepali', 'Pashto', 'Persian', 
+                               'Punjabi', 'Samoan', 'Scots Gaelic', 'Serbian', 'Sesotho', 'Shona', 
+                               'Sindhi', 'Sinhala', 'Somali', 'Spanish', 'Sundanese', 'Swahili', 
+                               'Tajik', 'Tamil', 'Telugu', 'Thai', 'Uzbek', 'Vietnamese', 'Welsh', 
+                               'Xhosa', 'Yiddish', 'Yoruba', 'Zulu']
 
         # Create variables to hold the selected languages
         self.from_language = StringVar(self.root)
@@ -79,13 +96,20 @@ class TaskView:
         self.to_language.set('English')
 
         # Create dropdown lists
-        from_language_menu = OptionMenu(
-            self.root, self.from_language, *languages)
-        to_language_menu = OptionMenu(self.root, self.to_language, *languages)
+        self.from_language_menu = OptionMenu(
+            self.root, self.from_language, *self.short_languages)
+        self.to_language_menu = OptionMenu(self.root, self.to_language, *self.short_languages)
 
         # Place the dropdown lists
-        from_language_menu.place(x=500, y=340)
-        to_language_menu.place(x=500, y=380)
+        self.from_language_menu.place(x=500, y=340)
+        self.to_language_menu.place(x=500, y=380)
+
+        # Create a variable to hold the state of the checkmark
+        self.long_languages_var = BooleanVar()
+
+        # Associate the variable with the checkmark
+        self.long_languages_checkmark = Checkbutton(self.root, text="I'm polyglot", variable=self.long_languages_var, command=self.update_language_list)
+        self.long_languages_checkmark.place(x=500, y=420)
 
         # Bind mouse events for dragging items
         self.my_list.bind("<Button-1>", self.on_start_drag)
@@ -94,7 +118,23 @@ class TaskView:
         # Initialize variables for storing drag data
         self.drag_start_index = None
         self.dragged_index = None
+    
+    def update_language_list(self):
+        # Check if the checkmark is checked
+        if self.long_languages_var.get():
+            # If it's checked, use the long language list
+            languages = self.long_languages
+        else:
+            # If it's unchecked, use the short language list
+            languages = self.short_languages
 
+        # Update the dropdown lists
+        self.from_language_menu['menu'].delete(0, 'end')
+        self.to_language_menu['menu'].delete(0, 'end')
+        for language in languages:
+            self.from_language_menu['menu'].add_command(label=language, command=lambda l=language: self.from_language.set(l))
+            self.to_language_menu['menu'].add_command(label=language, command=lambda l=language: self.to_language.set(l))
+            
     def display_tasks(self, tasks):
         self.my_list.delete(0, END)
         for task in tasks:
