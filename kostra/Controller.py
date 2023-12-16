@@ -160,14 +160,24 @@ class TaskController:
             self.view.my_entry.insert(0, translation.text)
             return
         elif (len(selected_indices) != 0):
+            # Get the tasks for the selected date
+            filtered_tasks = [
+                task for task in self.model.tasks if task["date"] == self.selected_date]
+    
             for index in selected_indices:
-                task_text = self.model.tasks[index]["text"]
-                translation = translator.translate(
-                    task_text, src=from_language, dest=to_language)
-                self.view.my_list.delete(index)
-                self.view.my_list.insert(index, translation.text)
-                # Update the task text in the model
-                self.model.tasks[index]["text"] = translation.text
+                # Check if the index is within the bounds of the filtered tasks list
+                if 0 <= index < len(filtered_tasks):
+                    # Get the index of the task within the entire tasks list
+                    global_index = self.model.tasks.index(
+                        filtered_tasks[index])
+    
+                    task_text = self.model.tasks[global_index]["text"]
+                    translation = translator.translate(
+                        task_text, src=from_language, dest=to_language)
+                    self.view.my_list.delete(index)
+                    self.view.my_list.insert(index, translation.text)
+                    # Update the task text in the model
+                    self.model.tasks[global_index]["text"] = translation.text
             # Save the tasks
             self.model.save_tasks()
 
