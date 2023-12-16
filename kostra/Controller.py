@@ -26,12 +26,28 @@ class TaskController:
 
     # delete one task function
     def delete_item(self):
-        selected_indices = self.view.my_list.curselection()     # get selected tasks
+        # Get selected indices from the Listbox
+        selected_indices = self.view.my_list.curselection()
 
-        for index in reversed(selected_indices):
-            self.model.delete_task(index)
-            # delete tasks from listbox
-            self.view.my_list.delete(index)
+        # Get the selected date (you need to have this attribute set somewhere in your code)
+        selected_date = self.selected_date
+
+        # If there are selected indices
+        if selected_indices:
+            filtered_tasks = [
+                task for task in self.model.tasks if task["date"] == selected_date]
+
+            for index in reversed(selected_indices):
+                # Check if the index is within the bounds of the filtered tasks list
+                if 0 <= index < len(filtered_tasks):
+                    # Get the index of the task within the entire tasks list
+                    global_index = self.model.tasks.index(
+                        filtered_tasks[index])
+
+                    # Delete the task from the model and the view (Listbox)
+                    self.model.delete_task(global_index)
+                    self.view.my_list.delete(global_index)
+        self.view.display_tasks(self.model.tasks, selected_date)
 
     def add_item(self):                                         # add one task function
         if (self.view.my_entry.get() == ""):                    # if entry is empty, do nothing
