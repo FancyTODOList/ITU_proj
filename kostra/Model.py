@@ -1,8 +1,11 @@
 import json
 #  This is the Model class. It is responsible for loading and saving the tasks.
+
+
 class TaskModel:
     def __init__(self):
-        self.tasks = self.load_tasks()                  # Load the tasks from the JSON file
+        # Load the tasks from the JSON file
+        self.tasks = self.load_tasks()
 
     def load_tasks(self):
         try:
@@ -18,8 +21,9 @@ class TaskModel:
         with open("tasks.json", "w") as file:           # Save the tasks to the JSON file
             json.dump(self.tasks, file)
 
-    def add_task(self, task_text):
-        task = {"text": task_text, "completed": False}  # Create a new task
+    def add_task(self, task_text, task_date):
+        task = {"text": task_text, "date": task_date,
+                "completed": False}  # Create a new task
         self.tasks.append(task)
         self.save_tasks()
 
@@ -29,6 +33,5 @@ class TaskModel:
 
     def complete_task(self, index):
         self.tasks[index]["completed"] = not self.tasks[index]["completed"]
-        self.save_tasks()                               # Set task as completed or not completed
-    
-    
+        # Set task as completed or not completed
+        self.save_tasks()

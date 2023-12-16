@@ -12,7 +12,7 @@ class TaskController:
     def __init__(self, model, view):                                     # initialization
         self.model = model
         self.view = view
-
+        self.selected_date = datetime.date.today().strftime("%d. %m. %Y")
         # load tasks from JSON file
         self.load_tasks()
 
@@ -37,7 +37,8 @@ class TaskController:
         if (self.view.my_entry.get() == ""):                    # if entry is empty, do nothing
             return
         task_text = self.view.my_entry.get()
-        self.model.add_task(task_text)
+        task_date = self.selected_date
+        self.model.add_task(task_text, task_date)
         # add task to listbox and json file and clear entry
         self.view.my_list.insert(END, task_text)
         self.view.my_entry.delete(0, END)
@@ -89,12 +90,17 @@ class TaskController:
     def open_calendar(self):
         calendar_controller = CalendarController(None, None)
         # Get the date using the controller's get_date function
-        today = calendar_controller.get_date()
+        self.today = calendar_controller.get_date()
         # Create a CalendarView instance with the controller and pass the date
         calendar_view = CalendarView(
-            Toplevel(self.view.root), calendar_controller, today)
+            Toplevel(self.view.root), calendar_controller, self.today)
         # Set the controller on the view
         calendar_controller.view = calendar_view
+        self.view.root.wait_window(calendar_view.root)
+
+        # Retrieve the selected date after the window is closed
+        self.selected_date = calendar_view.get_selected_date()
+        self.load_tasks()
 
     def translate(self):                     # translate function
         selected_indices = self.view.my_list.curselection()
@@ -124,7 +130,7 @@ class TaskController:
     # load tasks to listbox function
     def load_tasks(self):
         tasks = self.model.load_tasks()
-        self.view.display_tasks(tasks)
+        self.view.display_tasks(tasks, self.selected_date)
 
 # Calendar controller
 

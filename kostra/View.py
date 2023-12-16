@@ -43,9 +43,9 @@ class TaskView:
         self.button_frame.pack(pady=20)
 
         self.delete_button = Button(
-            self.button_frame, text="Delete Item", command=self.delete_item, background="#469597")
+            self.button_frame, text="Delete Task", command=self.delete_item, background="#469597")
         self.add_button = Button(
-            self.button_frame, text="Add Item", command=self.add_item, background="#469597")
+            self.button_frame, text="Add Task", command=self.add_item, background="#469597")
         self.complete_button = Button(
             self.button_frame, text="Complete", command=self.complete_item, background="#469597")
         self.calendar_button = Button(
@@ -68,23 +68,24 @@ class TaskView:
             row=2, column=0, columnspan=4, sticky='ew', pady=10)
 
         # List of languages
-        self.short_languages = ['English', 'Polish', 'Czech', 'Slovak', 'Ukrainian', 'Bulgarian']
-        self.long_languages = ['English', 'Spanish', 'French', 'German', 'Italian', 'Chinese', 
-                               'Japanese', 'Korean', 'Arabic', 'Hindi', 'Turkish', 'Portuguese', 
-                               'Dutch', 'Polish', 'Romanian', 'Greek', 'Swedish', 'Czech', 'Danish', 
-                               'Finnish', 'Hungarian', 'Norwegian', 'Slovak', 'Ukrainian', 'Bulgarian', 
-                               'Croatian', 'Lithuanian', 'Slovenian', 'Estonian', 'Latvian', 'Maltese', 
-                               'Afrikaans', 'Albanian', 'Amharic', 'Armenian', 'Azerbaijani', 'Basque', 
-                               'Belarusian', 'Bengali', 'Bosnian', 'Catalan', 'Cebuano', 'Chichewa', 
-                               'Corsican', 'Filipino', 'Frisian', 'Galician', 'Georgian', 'Gujarati', 
-                               'Haitian Creole', 'Hausa', 'Hawaiian', 'Hmong', 'Icelandic', 'Igbo', 
-                               'Indonesian', 'Irish', 'Javanese', 'Kannada', 'Kazakh', 'Khmer', 
-                               'Kurdish', 'Kyrgyz', 'Lao', 'Latin', 
-                               'Macedonian', 'Malagasy', 'Malay', 'Malayalam', 'Maori', 'Marathi', 
-                               'Mongolian', 'Myanmar', 'Nepali', 'Pashto', 'Persian', 
-                               'Punjabi', 'Samoan', 'Scots Gaelic', 'Serbian', 'Sesotho', 'Shona', 
-                               'Sindhi', 'Sinhala', 'Somali', 'Spanish', 'Sundanese', 'Swahili', 
-                               'Tajik', 'Tamil', 'Telugu', 'Thai', 'Uzbek', 'Vietnamese', 'Welsh', 
+        self.short_languages = ['English', 'Polish',
+                                'Czech', 'Slovak', 'Ukrainian', 'Bulgarian']
+        self.long_languages = ['English', 'Spanish', 'French', 'German', 'Italian', 'Chinese',
+                               'Japanese', 'Korean', 'Arabic', 'Hindi', 'Turkish', 'Portuguese',
+                               'Dutch', 'Polish', 'Romanian', 'Greek', 'Swedish', 'Czech', 'Danish',
+                               'Finnish', 'Hungarian', 'Norwegian', 'Slovak', 'Ukrainian', 'Bulgarian',
+                               'Croatian', 'Lithuanian', 'Slovenian', 'Estonian', 'Latvian', 'Maltese',
+                               'Afrikaans', 'Albanian', 'Amharic', 'Armenian', 'Azerbaijani', 'Basque',
+                               'Belarusian', 'Bengali', 'Bosnian', 'Catalan', 'Cebuano', 'Chichewa',
+                               'Corsican', 'Filipino', 'Frisian', 'Galician', 'Georgian', 'Gujarati',
+                               'Haitian Creole', 'Hausa', 'Hawaiian', 'Hmong', 'Icelandic', 'Igbo',
+                               'Indonesian', 'Irish', 'Javanese', 'Kannada', 'Kazakh', 'Khmer',
+                               'Kurdish', 'Kyrgyz', 'Lao', 'Latin',
+                               'Macedonian', 'Malagasy', 'Malay', 'Malayalam', 'Maori', 'Marathi',
+                               'Mongolian', 'Myanmar', 'Nepali', 'Pashto', 'Persian',
+                               'Punjabi', 'Samoan', 'Scots Gaelic', 'Serbian', 'Sesotho', 'Shona',
+                               'Sindhi', 'Sinhala', 'Somali', 'Spanish', 'Sundanese', 'Swahili',
+                               'Tajik', 'Tamil', 'Telugu', 'Thai', 'Uzbek', 'Vietnamese', 'Welsh',
                                'Xhosa', 'Yiddish', 'Yoruba', 'Zulu']
 
         # Create variables to hold the selected languages
@@ -98,7 +99,8 @@ class TaskView:
         # Create dropdown lists
         self.from_language_menu = OptionMenu(
             self.root, self.from_language, *self.short_languages)
-        self.to_language_menu = OptionMenu(self.root, self.to_language, *self.short_languages)
+        self.to_language_menu = OptionMenu(
+            self.root, self.to_language, *self.short_languages)
 
         # Place the dropdown lists
         self.from_language_menu.place(x=500, y=340)
@@ -108,7 +110,8 @@ class TaskView:
         self.long_languages_var = BooleanVar()
 
         # Associate the variable with the checkmark
-        self.long_languages_checkmark = Checkbutton(self.root, text="I'm polyglot", variable=self.long_languages_var, command=self.update_language_list)
+        self.long_languages_checkmark = Checkbutton(
+            self.root, text="I'm polyglot", variable=self.long_languages_var, command=self.update_language_list)
         self.long_languages_checkmark.place(x=500, y=420)
 
         # Bind mouse events for dragging items
@@ -118,7 +121,7 @@ class TaskView:
         # Initialize variables for storing drag data
         self.drag_start_index = None
         self.dragged_index = None
-    
+
     def update_language_list(self):
         # Check if the checkmark is checked
         if self.long_languages_var.get():
@@ -132,15 +135,18 @@ class TaskView:
         self.from_language_menu['menu'].delete(0, 'end')
         self.to_language_menu['menu'].delete(0, 'end')
         for language in languages:
-            self.from_language_menu['menu'].add_command(label=language, command=lambda l=language: self.from_language.set(l))
-            self.to_language_menu['menu'].add_command(label=language, command=lambda l=language: self.to_language.set(l))
-            
-    def display_tasks(self, tasks):
+            self.from_language_menu['menu'].add_command(
+                label=language, command=lambda l=language: self.from_language.set(l))
+            self.to_language_menu['menu'].add_command(
+                label=language, command=lambda l=language: self.to_language.set(l))
+
+    def display_tasks(self, tasks, selected_date):
         self.my_list.delete(0, END)
         for task in tasks:
             task_text = task['text']
             completed = '✅' if task['completed'] else ''
-            self.my_list.insert(END, f'{completed}{task_text}')
+            if task['date'] == selected_date:  # Filter tasks for the selected date
+                self.my_list.insert(END, f'{completed}{task_text}')
 
     def delete_item(self):
         pass
@@ -159,7 +165,7 @@ class TaskView:
 
     def micro(self):
         pass
-    
+
     def on_start_drag(self, event):
         # Get the index of the item that was clicked
         self.drag_start_index = self.my_list.nearest(event.y)
@@ -179,7 +185,8 @@ class TaskView:
 
             # Update the start index for further dragging
             self.drag_start_index = current_index
-    
+
+
 class CalendarView:
     def __init__(self, root, controller, initial_date):
         self.root = root
@@ -210,4 +217,5 @@ class CalendarView:
     def get_selected_date(self):
         selected_date_str = self.cal.get_date()
         selected_date = datetime.strptime(selected_date_str, "%m/%d/%y")
-        self.root.formatted_date = selected_date.strftime("%d. %m. %Y")
+        formatted_date = selected_date.strftime("%d. %m. %Y")
+        return formatted_date
