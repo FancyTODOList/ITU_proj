@@ -5,8 +5,9 @@ from datetime import datetime
 
 
 class TaskView:
-    def __init__(self, root):
+    def __init__(self, root, model):
         self.root = root
+        self.model = model
         self.root['bg'] = '#DDBEAA'
         self.root.title('ToDo List!')
         window_width = 600
@@ -114,14 +115,6 @@ class TaskView:
             self.root, text="I'm polyglot", variable=self.long_languages_var, command=self.update_language_list)
         self.long_languages_checkmark.place(x=500, y=420)
 
-        # Bind mouse events for dragging items
-        self.my_list.bind("<Button-1>", self.on_start_drag)
-        self.my_list.bind("<B1-Motion>", self.on_drag_motion)
-
-        # Initialize variables for storing drag data
-        self.drag_start_index = None
-        self.dragged_index = None
-
     def update_language_list(self):
         # Check if the checkmark is checked
         if self.long_languages_var.get():
@@ -165,26 +158,6 @@ class TaskView:
 
     def micro(self):
         pass
-
-    def on_start_drag(self, event):
-        # Get the index of the item that was clicked
-        self.drag_start_index = self.my_list.nearest(event.y)
-
-    def on_drag_motion(self, event):
-        # Get the index of the item that the cursor is over
-        current_index = self.my_list.nearest(event.y)
-
-        # Check if the current index is different from the start index
-        if current_index != self.drag_start_index:
-            # Remove the dragged item
-            item = self.my_list.get(self.drag_start_index)
-            self.my_list.delete(self.drag_start_index)
-
-            # Insert the item before the current index
-            self.my_list.insert(current_index, item)
-
-            # Update the start index for further dragging
-            self.drag_start_index = current_index
 
 
 class CalendarView:

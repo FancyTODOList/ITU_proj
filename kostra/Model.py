@@ -7,6 +7,10 @@ class TaskModel:
         # Load the tasks from the JSON file
         self.tasks = self.load_tasks()
 
+    def update_tasks_order(self, updated_tasks):
+        self.tasks = updated_tasks  # Update the tasks with the new order
+        self.save_tasks()  # Save the updated task order to the JSON file
+
     def load_tasks(self):
         try:
             with open("tasks.json", "r") as file:       # Open the JSON file
