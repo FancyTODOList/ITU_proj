@@ -200,8 +200,6 @@ class CalendarView:
         self.get_date_button = Button(
             self.root, text="Get date", command=self.get_selected_date,  background="#5BA199")
         self.get_date_button.place(x=180, y=200)
-        self.selected_date = Label(self.root, text="Selected date:   ")
-        self.selected_date.place(x=150, y=250)
 
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
@@ -212,6 +210,4 @@ class CalendarView:
     def get_selected_date(self):
         selected_date_str = self.cal.get_date()
         selected_date = datetime.strptime(selected_date_str, "%m/%d/%y")
-        formatted_date = selected_date.strftime("%d. %m. %Y")
-        self.selected_date.config(text=f"Selected date: {formatted_date}")
-        return formatted_date
+        self.root.formatted_date = selected_date.strftime("%d. %m. %Y")
