@@ -22,12 +22,12 @@ class TaskView:
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
         self.root.resizable(width=False, height=False)
 
-        self.my_font = Font(family="Regular", size=30, weight="bold")
+        self.my_font = Font(family="Regular", size=20, weight="bold")
 
         self.my_frame = Frame(root)
         self.my_frame.pack(pady=10)
 
-        self.my_list = Listbox(self.my_frame, font=self.my_font, width=25, height=5, bg="#DDBEAA", bd=0,
+        self.my_list = Listbox(self.my_frame, font=self.my_font, width=35, height=7, bg="#DDBEAA", bd=0,
                                fg="#000000", highlightthickness=0, selectbackground="#a6a6a6", activestyle="none")
         self.my_list.pack(side=LEFT, fill=BOTH)
 
@@ -37,7 +37,7 @@ class TaskView:
         self.my_list.config(yscrollcommand=self.my_scrollbar.set)
         self.my_scrollbar.config(command=self.my_list.yview)
 
-        self.my_entry = Entry(root, font=("Helvetica", 24))
+        self.my_entry = Entry(root, font=("Helvetica", 20))
         self.my_entry.pack(pady=20)
 
         self.button_frame = Frame(root, background="#DDBEAA")
@@ -105,16 +105,34 @@ class TaskView:
 
         # Place the dropdown lists
         self.from_language_menu.place(x=500, y=340)
+        self.from_language_menu.config(bg="#469597", highlightthickness=0)  
         self.to_language_menu.place(x=500, y=380)
-
+        self.to_language_menu.config(bg="#469597", highlightthickness=0)
         # Create a variable to hold the state of the checkmark
         self.long_languages_var = BooleanVar()
 
         # Associate the variable with the checkmark
         self.long_languages_checkmark = Checkbutton(
-            self.root, text="I'm polyglot", variable=self.long_languages_var, command=self.update_language_list)
+            self.root, text="I'm polyglot", variable=self.long_languages_var, command=self.update_language_list, background="#DDBEAA", highlightthickness=0)
         self.long_languages_checkmark.place(x=500, y=420)
+        
+        # Create a label to display the time
+        self.time_label = Label(root, text="", font=("Helvetica", 24))
+        self.time_label.pack(pady=20)
 
+        # Update the time label every second
+        self.update_time_label()
+
+    def update_time_label(self):
+        # Get the current time
+        current_time = datetime.now().strftime("%H:%M:%S")
+
+        # Update the time label
+        self.time_label.config(text=f"{current_time}", background="#DDBEAA", foreground="#469597")
+
+        # Call this method again after 1000 milliseconds
+        self.root.after(1000, self.update_time_label)
+            
     def update_language_list(self):
         # Check if the checkmark is checked
         if self.long_languages_var.get():
