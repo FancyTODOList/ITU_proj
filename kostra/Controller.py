@@ -1,20 +1,36 @@
+"""
+Controller.py
+
+Authors:
+    - Ivan Onufriienko xonufr00
+    - Oleksii Shelest xshele02
+    - Václav Zapletal xzaple40
+
+This file contains the TaskController and CalendarController classes, which are used to control the interaction between the model and the view in the ToDo List application.
+"""
 from tkinter import *
 from Model import TaskModel
 from View import TaskView
 import datetime
-from tkcalendar import Calendar
 from pocketsphinx import LiveSpeech
-from pydub import AudioSegment
-from pydub.playback import play
-
-
 
 
 # Todo list controller
 
 
 class TaskController:
-    def __init__(self, model, view):                                     # initialization
+    """
+    @brief Class representing the controller for tasks.
+    @author Ivan Onufriienko xonufr00
+    This class provides the interface for controlling the interaction between the model and the view for tasks.
+    """
+    def __init__(self, model, view):
+        """
+        @brief Constructor for TaskController.
+        @author Oleksii Shelest xshele02
+        @param model The model containing the tasks.
+        @param view The view for displaying and interacting with tasks.
+        """                                  
         self.model = model
         self.view = view
 
@@ -31,6 +47,11 @@ class TaskController:
 
     # delete one task function
     def delete_item(self):
+        """
+        @brief Deletes the selected task.
+        @author Oleksii Shelest xshele02
+        This method is called when the "Delete Task" button is clicked.
+        """
         # Get selected indices from the Listbox
         selected_indices = self.view.my_list.curselection()
 
@@ -52,9 +73,14 @@ class TaskController:
                     # Delete the task from the model and the view (Listbox)
                     self.model.delete_task(global_index)
                     self.view.my_list.delete(global_index)
-        self.view.display_tasks(self.model.tasks, selected_date)
+        self.view.display_tasks(self.model.tasks)
 
     def add_item(self):                                         # add one task function
+        """
+        @brief Adds a new task.
+        @author Oleksii Shelest xshele02
+        This method is called when the "Add Task" button is clicked.
+        """
         if (self.view.my_entry.get() == ""):                    # if entry is empty, do nothing
             return
         task_text = self.view.my_entry.get()
@@ -65,6 +91,12 @@ class TaskController:
         self.view.my_entry.delete(0, END)
 
     def complete_item(self):
+        """
+        @brief Marks the selected task as completed or uncompleted and increments points counter.
+        @author Oleksii Shelest xshele02
+        @author Zapletal Václav xzaple40 (Added only increment for points)
+        This method is called when the "Complete" button is clicked.
+        """
         selected_indices = self.view.my_list.curselection()
 
         # Iterate through selected tasks
@@ -114,36 +146,35 @@ class TaskController:
                 points_value += 1
                 self.view.points_var.set(str(points_value))
             
-
-    # load tasks to listbox function
     def load_tasks(self):
+        """
+        @brief Loads the tasks for the selected date.
+        @author Ivan Onufriienko xonufr00
+        This method is called when the selected date is changed.
+        """
         tasks = self.model.load_tasks()
-        self.view.display_tasks(tasks, self.selected_date)
+        self.view.display_tasks(tasks)
 
     def speech_to_text(self):
+        """
+        @brief Convert speech to text
+        @author Václav Zapletal xzaple40
+        """
         speech = LiveSpeech()
 
-        print("Say something:")
         for phrase in speech:
             task_text = str(phrase)
             # Extract the first word from the recognized speech
             first_word = task_text.split()[0]
-            
-            # Process the first word (you can replace this with your specific processing logic)
+    
             self.process_first_word(first_word)
 
-            break  # Process the first phrase only; you can remove this line if you want continuous listening
+            break  
 
     def process_first_word(self, first_word):
-        # Add your processing logic for the first word here
-        print("Processed word:", first_word)
-
-        # If you want to update the entry widget with the processed word:
+        """
+        @brief Processing of the first spoken word
+        @author Václav Zapletal xzaple40
+        """
         self.view.my_entry.delete(0, END)
         self.view.my_entry.insert(END, first_word)
-
-        
-
-   
- 
-
