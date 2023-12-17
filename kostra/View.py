@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.font import Font
 from tkmacosx import Button
+from tkcalendar import Calendar
 
 class TaskView:
     def __init__(self, root, model):
@@ -16,6 +17,10 @@ class TaskView:
         button_color = header_color
         button_text_color = "white"
 
+        self.points_var = StringVar()
+        points_value = "0"
+        self.points_var.set(points_value)
+
         # Get screen dimensions
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
@@ -29,9 +34,7 @@ class TaskView:
 
         self.my_font = Font(family="Arial", size=20, weight="bold")
 
-        self.points_var = StringVar()
-        initial_points_value = "10"  # Replace with your initial points value
-        self.points_var.set(initial_points_value)
+
 
         # Header Frame
         self.header_frame = Frame(root, background=header_color, height=window_height // 2)
@@ -46,6 +49,10 @@ class TaskView:
 
         self.points_display_label = Label(self.header_frame, textvariable=self.points_var, bg=header_color, fg="white")
         self.points_display_label.pack(side="right")  # Align the label to the right side
+
+        #Calendar button
+        self.calender_button = Button(self.header_frame, text="Calendar" ,background="white",fg="black",command=self.show_calendar_top)
+        self.calender_button.pack(side="left")
         
 
         # Body Frame
@@ -65,10 +72,13 @@ class TaskView:
 
 
         self.delete_button = Button(self.body_frame, text="❌", command=self.delete_item,background=button_color,fg=button_text_color)
-        self.delete_button.grid(row=1, column=1, sticky="nsew", pady=10, padx=10)
+        self.delete_button.grid(row=2, column=2, sticky="nsew", pady=10, padx=10)
 
         self.complete_button = Button(self.body_frame, text="Complete", command=self.complete_item,background=button_color,fg=button_text_color)
-        self.complete_button.grid(row=2, column=0, sticky="nsew", pady=10, padx=10, columnspan=2)  # Set columnspan to make it span two columns
+        self.complete_button.grid(row=2, column=0, sticky="nsew", pady=10, padx=10)  
+
+        self.speech_button = Button(self.body_frame, text="Speech", command=self.speech_to_text,background=button_color,fg=button_text_color)
+        self.speech_button.grid(row=2, column=1, sticky="nsew", pady=10, padx=10)
 
         # Make columns and rows expandable
         self.root.grid_columnconfigure(0, weight=1)
@@ -92,3 +102,10 @@ class TaskView:
 
     def complete_item(self):
         pass
+
+    def speech_to_text(self):
+        pass
+
+    def show_calendar_top(self):
+        pass
+

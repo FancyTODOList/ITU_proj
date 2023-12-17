@@ -1,7 +1,12 @@
-from tkinter import Toplevel, Text, Button, END
+from tkinter import *
 from Model import TaskModel
 from View import TaskView
 import datetime
+from tkcalendar import Calendar
+from pocketsphinx import LiveSpeech
+from pydub import AudioSegment
+from pydub.playback import play
+
 
 # Todo list controller
 
@@ -18,6 +23,13 @@ class TaskController:
         self.view.delete_button.config(command=self.delete_item)
         self.view.add_button.config(command=self.add_item)
         self.view.complete_button.config(command=self.complete_item)
+        self.view.speech_button.config(command=self.speech_to_text)
+        self.view.calender_button.config(command=self.show_calendar_top)
+
+        self.calendar_top = None
+
+
+        
 
     # delete one task function
     def delete_item(self):
@@ -83,6 +95,12 @@ class TaskController:
                 if completed:
                     self.view.my_list.delete(index)
                     self.view.my_list.insert(index, f"✅ {task_text}")
+                    
+                    # Increment points_value only if the task is completed
+                    points_value = int(self.view.points_var.get())
+                    points_value += 1
+                    self.view.points_var.set(str(points_value))
+
                 else:
                     self.view.my_list.delete(index)
                     self.view.my_list.insert(index, task_text)
@@ -93,10 +111,60 @@ class TaskController:
                 # Update the view with the newly added task
                 self.view.my_list.delete(index)
                 self.view.my_list.insert(index, f"✅ {task_text}")
+            
+                points_value = int(self.view.points_var.get())
+                points_value += 1
+                self.view.points_var.set(str(points_value))
+            
 
     # load tasks to listbox function
     def load_tasks(self):
         tasks = self.model.load_tasks()
         self.view.display_tasks(tasks, self.selected_date)
 
+    def speech_to_text(self):
+        speech = LiveSpeech()
+
+        print("Say something:")
+        for phrase in speech:
+            task_text = str(phrase)
+            # Extract the first word from the recognized speech
+            first_word = task_text.split()[0]
+            
+            # Process the first word (you can replace this with your specific processing logic)
+            self.process_first_word(first_word)
+
+            break  # Process the first phrase only; you can remove this line if you want continuous listening
+
+    def process_first_word(self, first_word):
+        # Add your processing logic for the first word here
+        print("Processed word:", first_word)
+
+        # If you want to update the entry widget with the processed word:
+        self.view.my_entry.delete(0, END)
+        self.view.my_entry.insert(END, first_word)
+
+        
+
+    def show_calendar_top(self):
+        # Show the calendar top window
+        if self.calendar_top is not None:
+            self.calendar_top.deiconify()
+        else:
+            self.calendar_top = Toplevel(self.view.root)
+            self.calendar_top.withdraw()  # Hide the calendar top initially
+            self.calendar_top.protocol("WM_DELETE_WINDOW", self.hide_calendar_top)  # Handle close event
+
+            calendar_frame = Frame(self.calendar_top, background="#daf2dc", height=300, width=400)
+            calendar_frame.pack(fill="both", expand=True)
+
+            # Create a Calendar widget for visually selecting dates
+            calendar = Calendar(calendar_frame, selectmode="day", date_pattern="dd.MM.yyyy")
+            calendar.pack(padx=10, pady=10)
+
+    def hide_calendar_top(self):
+        # Hide the calendar top window
+        if self.calendar_top is not None:
+            self.calendar_top.withdraw()
+ 
 
