@@ -20,6 +20,7 @@ class TaskView:
     @author Ivan Onufriienko xonufr00
     This class provides the interface for displaying and interacting with tasks.
     """
+
     def __init__(self, root, model):
         """
         @brief Constructor for TaskView.
@@ -127,7 +128,7 @@ class TaskView:
 
         # Place the dropdown lists
         self.from_language_menu.place(x=500, y=340)
-        self.from_language_menu.config(bg="#469597", highlightthickness=0)  
+        self.from_language_menu.config(bg="#469597", highlightthickness=0)
         self.to_language_menu.place(x=500, y=380)
         self.to_language_menu.config(bg="#469597", highlightthickness=0)
         # Create a variable to hold the state of the checkmark
@@ -137,7 +138,7 @@ class TaskView:
         self.long_languages_checkmark = Checkbutton(
             self.root, text="I'm polyglot", variable=self.long_languages_var, command=self.update_language_list, background="#DDBEAA", highlightthickness=0)
         self.long_languages_checkmark.place(x=500, y=420)
-        
+
         # Create a label to display the time
         self.time_label = Label(root, text="", font=("Helvetica", 24))
         self.time_label.pack(pady=20)
@@ -155,11 +156,12 @@ class TaskView:
         current_time = datetime.now().strftime("%H:%M:%S")
 
         # Update the time label
-        self.time_label.config(text=f"{current_time}", background="#DDBEAA", foreground="#469597")
+        self.time_label.config(
+            text=f"{current_time}", background="#DDBEAA", foreground="#469597")
 
         # Call this method again after 1000 milliseconds
         self.root.after(1000, self.update_time_label)
-            
+
     def update_language_list(self):
         """
         @brief Updates the language dropdown lists.
@@ -223,6 +225,7 @@ class CalendarView:
     @author Ivan Onufriienko xonufr00
     This class provides the interface for selecting a date.
     """
+
     def __init__(self, root, controller, initial_date):
         """
         @brief Constructor for CalendarView.
@@ -247,14 +250,20 @@ class CalendarView:
         y = (screen_height - window_height) // 2
 
         self.get_date_button = Button(
-            self.root, text="Get date", command=self.get_selected_date,  background="#5BA199")
-        self.get_date_button.place(x=180, y=200)
+            self.root, text="Get date", command=self.help_function,  background="#5BA199")
+        self.get_date_button.place(x=195, y=200)
+
+        self.selected_date_label = Label(
+            self.root, text="Selected Date: ", font=('Arial', 12), background="#469597")
+        self.selected_date_label.place(x=10, y=240)
 
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
         self.cal = Calendar(self.root, selectmode="day",
                             year=initial_date.year, month=initial_date.month, day=initial_date.day)
         self.cal.pack(padx=10, pady=10)
+
+        # self.update_date_label()
 
     def get_selected_date(self):
         """
@@ -269,3 +278,26 @@ class CalendarView:
         selected_date = datetime.strptime(selected_date_str, "%m/%d/%y")
         formatted_date = selected_date.strftime("%d. %m. %Y")
         return formatted_date
+
+    def update_date_label(self):
+        """
+        @brief Updates date after choosing a new one.
+        @author Oleksii Shelest xshele02
+        This method is called when the "Get date" button is clicked.
+        It writes the selected date in the format "dd. mm. yyyy".
+
+        """
+        new_date = self.get_selected_date()
+        self.selected_date_label.config(
+            text=f"Selected Date: {new_date}")
+
+    def help_function(self):
+        """
+        @brief Help function for start 2 functions in one time.
+        @author Oleksii Shelest xshele02
+        This method is called when the "Get date" button is clicked.
+        It launches 2 functions".
+
+        """
+        self.get_selected_date()
+        self.update_date_label()
