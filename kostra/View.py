@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter.font import Font
 from tkmacosx import Button
 from tkcalendar import Calendar
+from datetime import date
+
 
 class TaskView:
     def __init__(self, root, model):
@@ -20,6 +22,8 @@ class TaskView:
         self.points_var = StringVar()
         points_value = "0"
         self.points_var.set(points_value)
+        
+
 
         # Get screen dimensions
         screen_width = self.root.winfo_screenwidth()
@@ -35,24 +39,25 @@ class TaskView:
         self.my_font = Font(family="Arial", size=20, weight="bold")
 
 
+        self.calendar_top = None
 
         # Header Frame
         self.header_frame = Frame(root, background=header_color, height=window_height // 2)
         self.header_frame.grid(row=0, column=0, sticky="nsew")
-        
-        # Header
-        self.header_label = Label(self.header_frame, text="ToDo list", font=("Arial", 50), bg= header_color,fg="white")
-        self.header_label.pack(anchor="center")  # Use pack instead of grid
 
-        self.point_label = Label(self.header_frame,text="Points",bg=header_color,fg="white")
-        self.point_label.pack(side="right")
+        self.point_label = Label(self.header_frame, text="Points: ", bg=header_color, fg="white")
+        self.point_label.pack(side="left", anchor="w")
 
         self.points_display_label = Label(self.header_frame, textvariable=self.points_var, bg=header_color, fg="white")
-        self.points_display_label.pack(side="right")  # Align the label to the right side
+        self.points_display_label.pack(side="left", anchor="w")
 
-        #Calendar button
-        self.calender_button = Button(self.header_frame, text="Calendar" ,background="white",fg="black",command=self.show_calendar_top)
-        self.calender_button.pack(side="left")
+        # Calendar button
+        self.calender_button = Button(self.header_frame, text="Calendar", background="white", fg="black", command=self.show_calendar_top)
+        self.calender_button.pack(side="right", anchor="w")
+        # Current Date
+        self.current_date_label = Label(self.header_frame, text=f"Today: {date.today().strftime('%d.%m.%Y')}", font=("Arial", 16), bg=header_color, fg="white")
+        self.current_date_label.pack(side="right", anchor="w", padx=10, pady=5)
+
         
 
         # Body Frame
@@ -107,5 +112,38 @@ class TaskView:
         pass
 
     def show_calendar_top(self):
-        pass
+        # Show the calendar top window
+        if self.calendar_top is not None:
+            self.calendar_top.deiconify()
+        else:
+            self.calendar_top = Toplevel(self.root)
+            self.calendar_top.withdraw()  # Hide the calendar top initially
+            self.calendar_top.protocol("WM_DELETE_WINDOW", self.hide_calendar_top)  # Handle close event
+
+            calendar_frame = Frame(self.calendar_top, background="#daf2dc", height=300, width=400)
+            calendar_frame.pack(fill="both", expand=True)
+
+            # Create a Calendar widget for visually selecting dates
+            calendar = Calendar(calendar_frame, selectmode="day", date_pattern="dd.MM.yyyy",showweeknumbers=False)
+            calendar.pack(padx=10, pady=10)
+
+            # Add a button to get the selected date
+            get_date_button = Button(calendar_frame,text="Get Selected Date", command=lambda: self.get_selected_date(calendar))
+            get_date_button.pack(pady=10)
+
+    def hide_calendar_top(self):
+        # Hide the calendar top window
+        if self.calendar_top is not None:
+            self.calendar_top.withdraw()
+
+    def get_selected_date(self, calendar):
+        # Retrieve the selected date from the Calendar widget
+        selected_date = calendar.get_date()
+        print("Selected Date:", selected_date)
+        formatted_date = date(int(selected_date.split('.')[2]), int(selected_date.split('.')[1]), int(selected_date.split('.')[0]))
+        
+        # Update the current_date_label with the selected date
+        self.current_date_label.config(text=f"Selected Date: {formatted_date.strftime('%d.%m.%Y')}")
+
+        
 

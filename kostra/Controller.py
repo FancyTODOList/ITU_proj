@@ -8,6 +8,8 @@ from pydub import AudioSegment
 from pydub.playback import play
 
 
+
+
 # Todo list controller
 
 
@@ -24,12 +26,8 @@ class TaskController:
         self.view.add_button.config(command=self.add_item)
         self.view.complete_button.config(command=self.complete_item)
         self.view.speech_button.config(command=self.speech_to_text)
-        self.view.calender_button.config(command=self.show_calendar_top)
-
-        self.calendar_top = None
-
-
         
+
 
     # delete one task function
     def delete_item(self):
@@ -146,25 +144,6 @@ class TaskController:
 
         
 
-    def show_calendar_top(self):
-        # Show the calendar top window
-        if self.calendar_top is not None:
-            self.calendar_top.deiconify()
-        else:
-            self.calendar_top = Toplevel(self.view.root)
-            self.calendar_top.withdraw()  # Hide the calendar top initially
-            self.calendar_top.protocol("WM_DELETE_WINDOW", self.hide_calendar_top)  # Handle close event
-
-            calendar_frame = Frame(self.calendar_top, background="#daf2dc", height=300, width=400)
-            calendar_frame.pack(fill="both", expand=True)
-
-            # Create a Calendar widget for visually selecting dates
-            calendar = Calendar(calendar_frame, selectmode="day", date_pattern="dd.MM.yyyy")
-            calendar.pack(padx=10, pady=10)
-
-    def hide_calendar_top(self):
-        # Hide the calendar top window
-        if self.calendar_top is not None:
-            self.calendar_top.withdraw()
+   
  
 
