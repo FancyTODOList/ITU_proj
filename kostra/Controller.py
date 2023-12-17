@@ -26,7 +26,7 @@ class TaskController:
     def __init__(self, model, view):                                     # initialization
         """
         @brief Constructor for TaskController.
-        @author Ivan Onufriienko xonufr00
+        @author Oleksii Shelest xshele02
         @param model The model containing the tasks.
         @param view The view for displaying and interacting with tasks.
         """
@@ -92,7 +92,7 @@ class TaskController:
     def micro(self):
         """
         @brief Converts speech to text.
-        @author Oleksii Shelest xshele02
+        @author Ivan Onufriienko xonufr00
         This method is called when the "Micro" button is clicked.
         """
         r = sr.Recognizer()
@@ -235,7 +235,7 @@ class TaskController:
     def load_tasks(self):
         """
         @brief Loads the tasks for the selected date.
-        @author Oleksii Shelest xshele02
+        @author Ivan Onufriienko xonufr00
         This method is called when the selected date is changed.
         """
         tasks = self.model.load_tasks()
