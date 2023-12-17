@@ -104,16 +104,11 @@ class TaskController:
                 # 10 seconds waiting
                 audio = r.listen(source, timeout=10)
                 try:
-                    # English
-                    text = r.recognize_google(audio, language="en-US")
-                    # print("You said: " + text)
+                    text = r.recognize_google(audio, language="cs-CZ")
                 except sr.UnknownValueError:
                     try:
-                        # Cestina
-                        text = r.recognize_google(audio, language="cs-CZ")
-                        # print("Řekli jste: " + text)
+                        text = r.recognize_google(audio, language="en-US")
                     except sr.UnknownValueError:
-                        # print("Sorry, speech not recognized.")
                         text = "Sorry, speech not recognized."
             except sr.WaitTimeoutError:
                 text = "No speech detected"
