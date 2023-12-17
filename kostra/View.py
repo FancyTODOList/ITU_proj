@@ -1,3 +1,13 @@
+"""
+View.py
+
+Authors: 
+    - Ivan Onufriienko xonufr00
+    - Oleksii Shelest xshele02
+
+This file contains the TaskView and CalendarView classes, which are used to display the user interface for the ToDo List application.
+"""
+
 from tkinter import *
 from tkinter.font import Font
 from tkcalendar import Calendar
@@ -5,7 +15,19 @@ from datetime import datetime
 
 
 class TaskView:
+    """
+    @brief Class representing the view for tasks.
+    @author Ivan Onufriienko xonufr00
+    This class provides the interface for displaying and interacting with tasks.
+    """
     def __init__(self, root, model):
+        """
+        @brief Constructor for TaskView.
+        @author Oleksii Shelest xshele02
+        @author Ivan Onufriienko xonufr00
+        @param root The root widget.
+        @param model The model containing the tasks.
+        """
         self.root = root
         self.model = model
         self.root['bg'] = '#DDBEAA'
@@ -124,6 +146,11 @@ class TaskView:
         self.update_time_label()
 
     def update_time_label(self):
+        """
+        @brief Updates the time label with the current time.
+        @author Ivan Onufriienko xonufr00
+        This method is called every second to keep the time label up-to-date.
+        """
         # Get the current time
         current_time = datetime.now().strftime("%H:%M:%S")
 
@@ -134,6 +161,12 @@ class TaskView:
         self.root.after(1000, self.update_time_label)
             
     def update_language_list(self):
+        """
+        @brief Updates the language dropdown lists.
+        @author Ivan Onufriienko xonufr00
+        This method is called when the "I'm polyglot" checkmark is checked or unchecked.
+        It updates the dropdown lists to contain either the short or long language list.
+        """
         # Check if the checkmark is checked
         if self.long_languages_var.get():
             # If it's checked, use the long language list
@@ -152,6 +185,12 @@ class TaskView:
                 label=language, command=lambda l=language: self.to_language.set(l))
 
     def display_tasks(self, tasks, selected_date):
+        """
+        @brief Displays the tasks for the selected date.
+        @author Oleksii Shelest xshele02
+        @param tasks The list of all tasks.
+        @param selected_date The selected date.
+        """
         self.my_list.delete(0, END)
         for task in tasks:
             task_text = task['text']
@@ -179,7 +218,19 @@ class TaskView:
 
 
 class CalendarView:
+    """
+    @brief Class representing the calendar view.
+    @author Ivan Onufriienko xonufr00
+    This class provides the interface for selecting a date.
+    """
     def __init__(self, root, controller, initial_date):
+        """
+        @brief Constructor for CalendarView.
+        @author Oleksii Shelest xshele02
+        @param root The root widget.
+        @param controller The controller.
+        @param initial_date The initial selected date.
+        """
         self.root = root
         self.root.title('Calendar')
         self.controller = controller
@@ -206,6 +257,14 @@ class CalendarView:
         self.cal.pack(padx=10, pady=10)
 
     def get_selected_date(self):
+        """
+        @brief Gets the selected date.
+        @author Oleksii Shelest xshele02
+        This method is called when the "Get date" button is clicked.
+        It returns the selected date in the format "dd. mm. yyyy".
+
+        @return The selected date.
+        """
         selected_date_str = self.cal.get_date()
         selected_date = datetime.strptime(selected_date_str, "%m/%d/%y")
         formatted_date = selected_date.strftime("%d. %m. %Y")

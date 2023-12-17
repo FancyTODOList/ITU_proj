@@ -1,3 +1,12 @@
+"""
+Controller.py
+
+Authors:
+    - Ivan Onufriienko xonufr00
+    - Oleksii Shelest xshele02
+    
+This file contains the TaskController and CalendarController classes, which are used to control the interaction between the model and the view in the ToDo List application.
+"""
 from tkinter import Toplevel, Text, Button, END
 from Model import TaskModel
 from View import TaskView, CalendarView
@@ -9,7 +18,18 @@ import datetime
 
 
 class TaskController:
+    """
+    @brief Class representing the controller for tasks.
+    @author Ivan Onufriienko xonufr00
+    This class provides the interface for controlling the interaction between the model and the view for tasks.
+    """
     def __init__(self, model, view):                                     # initialization
+        """
+        @brief Constructor for TaskController.
+        @author Ivan Onufriienko xonufr00
+        @param model The model containing the tasks.
+        @param view The view for displaying and interacting with tasks.
+        """
         self.model = model
         self.view = view
         self.selected_date = datetime.date.today().strftime("%d. %m. %Y")
@@ -26,6 +46,11 @@ class TaskController:
 
     # delete one task function
     def delete_item(self):
+        """
+        @brief Deletes the selected task.
+        @author Oleksii Shelest xshele02
+        This method is called when the "Delete Task" button is clicked.
+        """
         # Get selected indices from the Listbox
         selected_indices = self.view.my_list.curselection()
 
@@ -50,6 +75,11 @@ class TaskController:
         self.view.display_tasks(self.model.tasks, selected_date)
 
     def add_item(self):                                         # add one task function
+        """
+        @brief Adds a new task.
+        @author Oleksii Shelest xshele02
+        This method is called when the "Add Task" button is clicked.
+        """
         if (self.view.my_entry.get() == ""):                    # if entry is empty, do nothing
             return
         task_text = self.view.my_entry.get()
@@ -60,6 +90,11 @@ class TaskController:
         self.view.my_entry.delete(0, END)
 
     def micro(self):
+        """
+        @brief Converts speech to text.
+        @author Oleksii Shelest xshele02
+        This method is called when the "Micro" button is clicked.
+        """
         r = sr.Recognizer()
         mic = sr.Microphone()
 
@@ -90,6 +125,11 @@ class TaskController:
     # complete/uncomplete one task function
 
     def complete_item(self):
+        """
+        @brief Marks the selected task as completed or uncompleted.
+        @author Oleksii Shelest xshele02
+        This method is called when the "Complete" button is clicked.
+        """
         selected_indices = self.view.my_list.curselection()
 
         # Iterate through selected tasks
@@ -132,6 +172,11 @@ class TaskController:
     # open calendar function
 
     def open_calendar(self):
+        """
+        @brief Opens the calendar view.
+        @author Oleksii Shelest xshele02
+        This method is called when the "Calendar" button is clicked.
+        """
         calendar_controller = CalendarController(None, None)
         # Get the date using the controller's get_date function
         self.today = calendar_controller.get_date()
@@ -147,6 +192,11 @@ class TaskController:
         self.load_tasks()
 
     def translate(self):                     # translate function
+        """
+        @brief Translates the selected task or the text in the entry.
+        @author Ivan Onufriienko xonufr00
+        This method is called when the "Translate" button is clicked.
+        """
         selected_indices = self.view.my_list.curselection()
         from_language = self.view.from_language.get()
         to_language = self.view.to_language.get()
@@ -183,6 +233,11 @@ class TaskController:
 
     # load tasks to listbox function
     def load_tasks(self):
+        """
+        @brief Loads the tasks for the selected date.
+        @author Oleksii Shelest xshele02
+        This method is called when the selected date is changed.
+        """
         tasks = self.model.load_tasks()
         self.view.display_tasks(tasks, self.selected_date)
 
@@ -190,10 +245,26 @@ class TaskController:
 
 
 class CalendarController:
+    """
+    @brief Class representing the controller for the calendar.
+    @author Ivan Onufriienko xonufr00
+    This class provides the interface for controlling the interaction between the model and the view for the calendar.
+    """
     def __init__(self, model, view):    # initialization
+        """
+        @brief Constructor for CalendarController.
+        @author Oleksii Shelest xshele02
+        @param model The model containing the tasks.
+        @param view The view for displaying and interacting with the calendar.
+        """
         self.model = model
         self.view = view
 
     def get_date(self):
+        """
+        @brief Gets today's date.
+        @author Oleksii Shelest xshele02
+        @return Today's date.
+        """
         today = datetime.date.today()   # get today's date
         return today
