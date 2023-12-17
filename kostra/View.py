@@ -29,13 +29,24 @@ class TaskView:
 
         self.my_font = Font(family="Arial", size=20, weight="bold")
 
+        self.points_var = StringVar()
+        initial_points_value = "10"  # Replace with your initial points value
+        self.points_var.set(initial_points_value)
+
         # Header Frame
         self.header_frame = Frame(root, background=header_color, height=window_height // 2)
         self.header_frame.grid(row=0, column=0, sticky="nsew")
         
         # Header
         self.header_label = Label(self.header_frame, text="ToDo list", font=("Arial", 50), bg= header_color,fg="white")
-        self.header_label.pack(expand=True, anchor="center")  # Use pack instead of grid
+        self.header_label.pack(anchor="center")  # Use pack instead of grid
+
+        self.point_label = Label(self.header_frame,text="Points",bg=header_color,fg="white")
+        self.point_label.pack(side="right")
+
+        self.points_display_label = Label(self.header_frame, textvariable=self.points_var, bg=header_color, fg="white")
+        self.points_display_label.pack(side="right")  # Align the label to the right side
+        
 
         # Body Frame
         self.body_frame = Frame(root, background=body_color, height=window_height // 2)
@@ -43,6 +54,7 @@ class TaskView:
 
         self.my_entry = Entry(self.body_frame, font=("Helvetica", 20))
         self.my_entry.grid(row=0, column=0, sticky="nsew", pady=10, padx=10)
+        
 
         self.my_list = Listbox(self.body_frame, font=self.my_font, bd=0, fg="#000000", highlightthickness=0,background=body_color, activestyle="none")
         self.my_list.grid(row=1, column=0, sticky="nsew", pady=10, padx=10)  # Set columnspan to make it span two columns
